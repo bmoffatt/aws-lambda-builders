@@ -14,7 +14,7 @@ LOG = logging.getLogger(__name__)
 class GoRuntimeValidator(object):
 
     LANGUAGE = "go"
-    SUPPORTED_RUNTIMES = {"go1.x"}
+    SUPPORTED_RUNTIMES = {"go1.x", "provided", "provided.al2"}
 
     def __init__(self, runtime):
         self.runtime = runtime
@@ -38,8 +38,8 @@ class GoRuntimeValidator(object):
             LOG.warning("'%s' runtime is not " "a supported runtime", self.runtime)
             return None
 
-        expected_major_version = int(self.runtime.replace(self.LANGUAGE, "").split(".")[0])
-        min_expected_minor_version = 11 if expected_major_version == 1 else 0
+        expected_major_version = 1
+        min_expected_minor_version = 11
 
         p = subprocess.Popen([runtime_path, "version"], cwd=os.getcwd(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, _ = p.communicate()
